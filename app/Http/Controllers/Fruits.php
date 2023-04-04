@@ -34,29 +34,38 @@ class Fruits
 
 $apple = new Fruits('Apple', 'red', '300'); //Khởi tạo Object
 
-echo $apple->getName(); //Apple
-echo $apple->getColor(); //Không hiển thị, vì chưa được thiết lập giá trị "$this->color = $color" trong hàm __contruct
-echo $apple->getWeight(); //Không hiển thị, vì không có tham số truyền vào trong hàm __contruct
-
 class Person {
     public $name;
 
     protected $age; // Khai báo protected
 
-    
+    const CONSTANT_STRING = 'Hello';
+
+    const CONSTANT_NUMBER = 1;
   
     public function __construct($name, $age) {
-      $this->name = $name;
-      $this->age = $age;
+        $this->name = $name;
+        $this->age = $age;
     }
   
     public function getAge() {
-      return $this->age;
+        return $this->age;
+    }
+
+    public static function printConstant() {
+        echo self::CONSTANT_STRING;
+        echo static::CONSTANT_STRING;
     }
 }
 
-$person = new Person("Manh", 24);
+class OtherPerson extends Person {
+    const CONSTANT_STRING = 'Alo';
+}
 
-echo $person->name; // Manh
-// echo $person->age; => Không hiển thị: khai báo ở trong class là protected, chỉ có thể được truy cập từ bên trong class và các class con của nó.
-echo $person->getAge();
+Person::printConstant(); 
+//Hello  => Khi sử dụng trong cùng 1 class thì self và static là tương đồng.
+//Hello  => Khi sử dụng trong cùng 1 class thì self và static là tương đồng.
+
+OtherPerson::printConstant(); //Kế thừa lớp Person
+//Hello => Kết quả sẽ trả về giá trị hằng số của lớp mà CONSTANT_STRING được định nghĩa (Person) do sử dụng self.
+//Alo => Kết quả sẽ trả về giá trị hằng số của lớp mà CONSTANT_STRING được định nghĩa (Person).
